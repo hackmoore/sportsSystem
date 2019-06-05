@@ -1,6 +1,7 @@
 <?php
 	// Basic session stuff
 	session_start();
+	require('core.php');
 
 	$METHOD = $_SERVER['REQUEST_METHOD'];
 	$REQUEST = explode("&", explode("?", $_SERVER['REQUEST_URI'])[1])[0];
@@ -9,7 +10,7 @@
 		requireMethod('POST');
 		requireArgs($_POST, ['username', 'password']);
 
-		$user = sportSystem\user::authenticate($_POST['username'], $_POST['password']);
+		$user = sportsSystem\db::authenticate($_POST['username'], $_POST['password']);
 
 		if( $user === false ){
 			jsonOut([
