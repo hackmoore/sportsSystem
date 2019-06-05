@@ -19,6 +19,7 @@
 			]);
 		}else{
 			// Login
+			$_SESSION['user'] = $user;
 
 			jsonOut([
 				'success' => true,
@@ -39,6 +40,11 @@
 
 
 //// Helper functions
+	function jsonOut(array $data){
+		header('Content-type: application/json');
+		die(json_encode($data));
+	}
+
 	function requireMethod(String $requiredMethod){
 		global $METHOD;
 

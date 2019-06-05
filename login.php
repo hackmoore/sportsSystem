@@ -1,3 +1,9 @@
+<?php
+  session_start();
+
+  if( isset($_SESSION['user']) )
+    header("Location: admin.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,11 +33,12 @@
         password: $("#inputPassword").val()
       }, function(response){
         if( response.success ){
-          $("#message").addClass("border-left-success").html('Login Successful');
-          // redirect
+          $("#message").removeClass("alert-danger").addClass("alert-success").html('Login Successful');
+          window.location = "admin.php";
         }else{
-          $("#message").addClass("border-left-danger").html("Login Failed");
+          $("#message").removeClass("alert-success").addClass("alert-danger").html("Login Failed");
         }
+        $("#message").removeClass("d-none");
       });
       return false;
     }
@@ -58,6 +65,7 @@
                 <div class="p-5">
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                    <div class="d-none alert" id="message" role="alert"></div>
                   </div>
                   <form class="user" onsubmit="return login();">
                     <div class="form-group">

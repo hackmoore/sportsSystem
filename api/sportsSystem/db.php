@@ -29,6 +29,7 @@
 				$params[$i] = static::$db->escape_string($v);
 
 			$query = vsprintf($sql, $params);
+			// die($query);
 			$result = static::$db->query($query);
 
 			$rtn = [];
@@ -40,13 +41,17 @@
 
 		public static function authenticate(String $username, String $password){
 			$matches = static::runQuery(
-				"SELECT id, username, firstname, lastname FROM users WHERE username = '%s' AND password = '%s';",
-				[$username, $password]
+				"SELECT id, username, firstname, lastname, password FROM users WHERE username = '%s';",
+				[$username]
 			);
-			
+
 			if( count($matches) === 0 )
 				return false;
+			
+			$user = $matches[0];
+			if( password_verify($password, $user['password']) )
+				return $user;
 			else
-				return $matches[0];
+				return false;
 		}
 	}
